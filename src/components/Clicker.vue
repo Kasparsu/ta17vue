@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="button is-primary" @click="$emit('incr')">Click me!</button>
+        <button class="button is-primary" @click="$emit('incr')">1 Click = 1 person saved from Corona</button>
     </div>
 </template>
 
