@@ -9,11 +9,13 @@
                 :unlocked="upgrade.unlocked"
                 @incrCps="increaseCps(upgrade, key)"
                 v-for="(upgrade, key) in upgrades"
+                v-bind:key="upgrade"
         ></upgrade>
         <specials :name="special.name"
                   @handleClick="special.function(special)"
                   :disabled="special.cost>count"
                   v-for="special in specials"
+                  v-bind:key="special"
         ></specials>
     </div>
 </template>
