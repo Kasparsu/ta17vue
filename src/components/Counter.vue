@@ -1,6 +1,6 @@
 <template>
     <div>
-        {{ Math.floor(value)}}
+        {{ value.toFixed(1) }}
     </div>
 </template>
 
