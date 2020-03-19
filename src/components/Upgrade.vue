@@ -12,5 +12,8 @@
 </script>
 
 <style scoped>
-
+button {
+    width: 200px;
+    margin: 5px;
+}
 </style>

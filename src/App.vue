@@ -1,13 +1,15 @@
 <template>
     <div>
         <clicker @incr="count++"></clicker>
-        <counter :value="count"></counter>
+        <counter :value="count" :cps="cps"></counter>
         <upgrade
-                v-for="upgrade in upgrades"
+                v-for="(upgrade, index) in upgrades"
                 :cps="upgrade.cps"
+				:key="index"
                 @incrCps="increaseCps(upgrade.cps, upgrade.cost)"
                 :disabled="upgrade.cost>count"
         ></upgrade>
+		<button class="button is-danger" @click="reset">Reset</button>
     </div>
 </template>
 
@@ -19,13 +21,18 @@
         name: "App",
         components: {Upgrade, Counter, Clicker},
         created(){
+			var data = JSON.parse(localStorage.getItem("data"));
+			if (data) {
+				this.cps = data.cps;
+				this.count = data.count;
+			}
             setInterval(()=> {
                 this.count += this.cps;
-            }, 1000);
-        },
-        mounted(){
-
-        },
+			}, 1000);
+			setInterval(() => {      
+			this.saveData();
+			}, 15000);
+        },        
         data(){
             return {
                 cps: 0,
@@ -43,11 +50,22 @@
             increaseCps(cps, cost){
                 this.cps+=cps;
                 this.count-=cost;
-            }
+			},
+			saveData() {      
+				localStorage.setItem("data", JSON.stringify({
+					count: this.count,
+					cps: this.cps
+					})
+				);               
+			},
+			reset() {
+				localStorage.clear();
+				this.count = 0;
+				this.cps = 0;
+			}
         }
     }
 </script>
 
 <style scoped>
-
 </style>
