@@ -7,6 +7,7 @@
                 :cps="upgrade.cps"
                 @incrCps="increaseCps(upgrade.cps, upgrade.cost)"
                 :disabled="upgrade.cost>count"
+                :currentCount=count
         ></upgrade>
     </div>
 </template>
@@ -20,8 +21,8 @@
         components: {Upgrade, Counter, Clicker},
         created(){
             setInterval(()=> {
-                this.count += this.cps;
-            }, 1000);
+                this.count += this.cps / 5;
+            }, 200);
         },
         mounted(){
 
