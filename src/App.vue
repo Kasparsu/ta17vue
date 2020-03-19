@@ -8,6 +8,7 @@
                 @incrCps="increaseCps(upgrade.cps, upgrade.cost)"
                 :disabled="upgrade.cost>count"
         ></upgrade>
+        <boss :cps="cps"></boss>
     </div>
 </template>
 
@@ -15,9 +16,11 @@
     import Clicker from "./components/Clicker.vue";
     import Counter from "./components/Counter.vue";
     import Upgrade from "./components/Upgrade.vue";
+    import Boss from "./components/Boss.vue";
+
     export default {
         name: "App",
-        components: {Upgrade, Counter, Clicker},
+        components: {Upgrade, Counter, Clicker, Boss},
         created(){
             setInterval(()=> {
                 this.count += this.cps;
