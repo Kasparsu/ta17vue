@@ -1,12 +1,13 @@
 <template>
     <div>
         <clicker @incr="count++"></clicker>
-        <counter :value="count"></counter>
+        <counter :value="count+=click"></counter>
         <upgrade
-                v-for="upgrade in upgrades"
-                :cps="upgrade.cps"
-                @incrCps="increaseCps(upgrade.cps, upgrade.cost)"
-                :disabled="upgrade.cost>count"
+                v-for="upgradeItem in upgrades"
+                :upgrade="upgradeItem"
+                @upgrade="upgrade(upgradeItem)"
+                :disabled="upgradeItem.cost>count"
+                :cost="upgrade.cost"
         ></upgrade>
     </div>
 </template>
@@ -30,19 +31,28 @@
             return {
                 cps: 0,
                 count: 0,
+                click: 1,
                 upgrades: [
-                    {cps: 0.1, cost: 10},
-                    {cps: 0.5, cost: 50},
-                    {cps: 1, cost: 100},
-                    {cps: 10, cost: 1000},
-                    {cps: 1000, cost: 10000},
+                    {type: 'cps', cps: 0.1, cost: 1},
+                    {type: 'cps', cps: 0.5, cost: 5},
+                    {type: 'cps', cps: 1, cost: 10},
+                    {type: 'cps', cps: 10, cost: 100},
+                    {type: 'cps', cps: 1000, cost: 1000},
+                    {type: 'click', count: 1, cost: 1},
+                    {type: 'click', count: 5, cost: 5},
+                    {type: 'click', count: 10, cost: 10},
+                    {type: 'click', count: 100, cost: 100},
                 ]
             }
         },
         methods: {
-            increaseCps(cps, cost){
-                this.cps+=cps;
-                this.count-=cost;
+            upgrade(upgradeItem){
+                if(upgradeItem.type==='cps') {
+                    this.cps += upgradeItem.count;
+                } else {
+                    this.click += upgradeItem.count;
+                }
+                this.count -= upgradeItem.cost
             }
         }
     }
