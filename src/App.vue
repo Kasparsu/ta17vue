@@ -1,12 +1,13 @@
 <template>
     <div>
-        <clicker @incr="count++"></clicker>
-        <counter :value="count"></counter>
+        <clicker @incr="count+=click"></clicker>
+        <div style="float: left">CPS: {{ Number((cps).toFixed(1))  }}</div>
+        <counter :value="count" style="clear: left"></counter>
         <upgrade
-                v-for="upgrade in upgrades"
-                :cps="upgrade.cps"
-                @incrCps="increaseCps(upgrade.cps, upgrade.cost)"
-                :disabled="upgrade.cost>count"
+                v-for="upgradeItem in upgrades"
+                :upgrade="upgradeItem"
+                @upgrade="upgrade(upgradeItem)"
+                :disabled="upgradeItem.cost>count"
         ></upgrade>
     </div>
 </template>
@@ -29,20 +30,30 @@
         data(){
             return {
                 cps: 0,
+                click: 1,
                 count: 0,
                 upgrades: [
-                    {cps: 0.1, cost: 10},
-                    {cps: 0.5, cost: 50},
-                    {cps: 1, cost: 100},
-                    {cps: 10, cost: 1000},
-                    {cps: 1000, cost: 10000},
+                    { type: 'cps', count: 0.1, cost: 10 },
+                    { type: 'cps', count: 0.5, cost: 50 },
+                    { type: 'cps', count: 1, cost: 100 },
+                    { type: 'cps', count: 10, cost: 1000 },
+                    { type: 'cps', count: 1000, cost: 10000 },
+                    { type: 'dmg', count: 2, cost: 10 },
+                    { type: 'dmg', count: 10, cost: 50 },
+                    { type: 'dmg', count: 50, cost: 100 },
+                    { type: 'dmg', count: 100, cost: 1000 },
+                    { type: 'dmg', count: 500, cost: 10000 },
                 ]
             }
         },
         methods: {
-            increaseCps(cps, cost){
-                this.cps+=cps;
-                this.count-=cost;
+            upgrade(upgradeItem){
+                if(upgradeItem.type==='cps') {
+                    this.cps += upgradeItem.count;
+                } else {
+                    this.click += upgradeItem.count;
+                }
+                this.count -= upgradeItem.cost
             }
         }
     }
